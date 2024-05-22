@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Extension</title>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+  <div class="weather-container">
+    <div class="weather-card">
+      <div class="weather-header">
+        <div class="location" id="location"></div>
+        <div class="date" id="date"></div>
+        <div class="date" id="time"></div>
+      </div>
+      <div class="weather-body">
+        <div class="temperature" id="temperature"></div>
+        <div class="description" id="description"></div>
+        <div class="details">
+          <div class="detail" id="wind-speed"></div>
+          <div class="detail" id="humidity"></div>
+          <div class="detail" id="uv-index"></div>
+        </div>
+      </div>
+      <div class="sunrise-sunset">
+      <div class="sunrise" id="sunrise"></div>
+      <div class="spacer"></div>
+      <div class="sunset" id="sunset"></div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

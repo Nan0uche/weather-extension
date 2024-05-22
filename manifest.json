@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "Weather Extension",
+  "version": "1.0",
+  "description": "Affiche le temps qu'il fait.",
+  "permissions": [
+    "geolocation",
+    "activeTab",
+    "tabs",
+    "cookies",
+    "alarms"
+  ],
+  "icons": {
+    "16": "images/favicon.ico",
+    "48": "images/favicon.ico",
+    "128": "images/favicon.ico"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "images/favicon.ico",
+      "48": "images/favicon.ico",
+      "128": "images/favicon.ico"
+    },
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
