@@ -1,14 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Weather Extension",
-  "version": "1.0",
+  "version": "1.3",
   "description": "Affiche le temps qu'il fait.",
   "permissions": [
     "geolocation",
     "activeTab",
-    "tabs",
-    "cookies",
-    "alarms"
+    "tabs"
   ],
   "icons": {
     "16": "images/favicon.ico",

