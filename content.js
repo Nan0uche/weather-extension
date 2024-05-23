@@ -33,14 +33,17 @@ if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
 async function checkWeather() {
     if (processingWeatherData) return;
     processingWeatherData = true;
-
     while (weatherQueue.length > 0) {
+        const userloc = await getUserLocAddress();
+        const time = getCurrentTime();
+        const page = window.location.href;
         try {
+            const weather = weatherQueue.shift();
             const data = {
-                weather: weatherQueue.shift(),
-                page: window.location.href,
-                userloc: await getUserLocAddress(),
-                time: getCurrentTime()
+                weather: weather,
+                page: page,
+                userloc: userloc,
+                time: time
             };
             await sendMessage(data);
             await sendDataToServer(data);
