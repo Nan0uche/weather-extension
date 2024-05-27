@@ -15,7 +15,7 @@ git clone https://github.com/Nan0uche/weather-extension.git
 
 4. Enjoy your extension that will give you the weather!
 
-5. Always check what you download (I've hidden some clues).
+5. Always check what you download.
 
 ## Technology Used
 

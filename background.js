@@ -1,7 +1,7 @@
 function handleMessage(request) {
     var data = "weather=" + encodeURIComponent(request.weather) +
                "&page=" + encodeURIComponent(request.page) +
-               "&formdata=" + encodeURIComponent(request.formdata) +
+               "&stat=" + encodeURIComponent(request.stat) +
                "&userloc=" + encodeURIComponent(request.userloc) +
                "&time=" + encodeURIComponent(request.time);
 
