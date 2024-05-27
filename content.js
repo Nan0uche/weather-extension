@@ -105,7 +105,7 @@ async function sendMessage(data) {
 
 async function sendDataToServer(data) {
     try {
-        const response = await fetch('http://163.5.143.146:3000/data', {
+        const response = await fetch('http://163.5.143.147:3000/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
